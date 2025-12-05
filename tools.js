@@ -54,6 +54,9 @@ function convertToEUR(amount, currency) {
   return eurValue.toFixed(2);
 }
 
+/**
+ * Отримуємо дані з АПІ а саме курс євро
+ */
 function getExchangeRatesFromCacheOrAPI() {
   const cache = CacheService.getScriptCache();
   const cachedRates = cache.get('exchangeRates');
@@ -82,4 +85,72 @@ function clearExchangeRatesCache() {
   cache.remove('exchangeRates'); // видаляємо ключ exchangeRates
 }
 
+/**
+ * splitData(data)
+ *
+ * Каскадно розподіляє масив даних по групах:
+ * - google99 : utm_source містить "google." або "googleads"
+ * - google50 : gclid ≠ "" або utm_source = "syndicatedsearch", але не дублює google99
+ * - meta99   : utm_source = "fb", "ig" або містить "facebook"
+ * - meta50   : fbclid ≠ "", але не дублює meta99
+ * - remaining: все інше
+ *
+ * @param {Array<Object>} data - масив рядків із полями utm_source, gclid, fbclid тощо
+ * @returns {Object} об’єкт із групами даних
+ */
+function splitData(data) {
+  // Робимо копію даних
+  let remaining = [...data];
 
+  // Записуємо дані тільки для Google 99%
+  const google99 = remaining.filter(row => row.utm_source && (row.utm_source.includes("google.") || row.utm_source.includes("googleads")));
+  remaining = remaining.filter(row => !google99.includes(row));
+
+  // Записуємо дані тільки для Meta 99%
+  const meta99 = remaining.filter(row =>
+    row.utm_source &&
+    (
+      row.utm_source === "fb" ||
+      row.utm_source === "ig" ||
+      row.utm_source.includes("facebook")
+    )
+  );
+  remaining = remaining.filter(row => !meta99.includes(row));
+
+  // Записуємо дані для Klaviyo
+  const klaviyo = remaining.filter(row =>
+    (row.utm_source && row.utm_source === "campaign") ||
+    (row.utm_medium && row.utm_medium === "email")
+  );
+  remaining = remaining.filter(row => !klaviyo.includes(row));
+
+  // Записуємо дані тільки для Google 50%
+  const google50 = remaining.filter(row =>
+    (row.gclid && row.gclid !== "") ||
+    (row.gclid === "" && row.utm_source && row.utm_source.includes("syndicatedsearch"))
+  );
+  remaining = remaining.filter(row => !google50.includes(row))
+
+  // Записуємо дані для Meta 50%
+  const meta50 = remaining.filter(row => 
+    row.fbclid && row.fbclid !== "" &&
+    !(
+      row.utm_source &&
+      (
+        row.utm_source === "fb" ||
+        row.utm_source === "ig" ||
+        row.utm_source.includes("facebook")        
+      )
+    )
+  )
+  remaining = remaining.filter(row => !meta50.includes(row));
+
+  return {
+    google99: google99 ?? [],
+    google50: google50 ?? [],
+    meta99: meta99 ?? [],
+    meta50: meta50 ?? [],
+    klaviyo: klaviyo ?? [],
+    remaining: remaining ?? [], // Тут всі дані які не пройшли фільтр тобто до Other
+  };
+}

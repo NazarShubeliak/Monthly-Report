@@ -1,9 +1,9 @@
 /**
- * Створює аркуш Google
+ * Створює аркуш Meta
  * @param {Array} data - дані з якими працює
  * @param {string} workSheetName - назва аркуша
  */
-function createGoogl(remaining, workSheetName) {
+function createMeta(remaining, workSheetName) {
   const sheet = ss.getSheetByName(workSheetName);
 
   if (!sheet) {
@@ -12,19 +12,19 @@ function createGoogl(remaining, workSheetName) {
 
   sheet.clear();
 
-  createGoogle99(remaining.google99, workSheetName);
-  logger.log("Create table Google 99%", Severity.DEBUG);
+  createMeta99(remaining.meta99, workSheetName);
+  logger.log("Create table Meta 99%", Severity.DEBUG);
 
-  createGoogle50(remaining.google50, workSheetName);
+  createMeta50(remaining.meta50, workSheetName);
   logger.log("Create table 50%", Severity.DEBUG);
 }
 
 /**
- * Створює таблицю Orders Google 99%
+ * Створює таблицю Orders Meta 99%
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createGoogle99(data, workSheetName) {
+function createMeta99(data, workSheetName) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -33,21 +33,21 @@ function createGoogle99(data, workSheetName) {
   const startRow = sheet.getLastRow() + 1;
 
   // Step 3: записуємо дані в таблицю
-  ordersGoogle99(data, workSheetName);
+  ordersMeta99(data, workSheetName);
 
-  // Step 4: об'єднюємо 1 стовпчик
-  mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Google 99%");
+  // // Step 4: об'єднюємо 1 стовпчик
+  mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Meta 99%");
 
-  // Step 5: підсумовуємо нашу цю таблицю
+  // // Step 5: підсумовуємо нашу цю таблицю
   appendSummaryTable(workSheetName, startRow);
 }
 
 /**
- * Створює таблицю Orders Google 50%
+ * Створює таблицю Orders Meta 50%
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createGoogle50(data, workSheetName) {
+function createMeta50(data, workSheetName) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -56,10 +56,10 @@ function createGoogle50(data, workSheetName) {
   const startRow = sheet.getLastRow() + 1;
 
   // Step 3: Записуємо дані в таблицю
-  ordersGoogle50(data, workSheetName);
+  ordersMeta50(data, workSheetName);
 
   // Step 4: 
-  mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Google 50%");
+  mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Meta 50%");
 
   // Step 5: підсумовуємо нашу цю таблицю
   appendSummaryTable(workSheetName, startRow);
@@ -70,18 +70,14 @@ function createGoogle50(data, workSheetName) {
  * @param {Array} data список всіх наших товарів
  * @param {string} workSheetName ім'я таблиці
  */
-function ordersGoogle99(data, workSheetName) {
+function ordersMeta99(data, workSheetName) {
   let sheet = ss.getSheetByName(workSheetName);
 
-  if (!sheet) {
-    sheet = ss.insertSheet(workSheetName);
-  }
-
   data.sort((a, b) => {
-    const aHasGclid = a.gclid && a.gclid.trim() !== "";
-    const bHasGclid = b.gclid && b.gclid.trim() !== "";
-    if (aHasGclid === bHasGclid) return 0;
-    return aHasGclid ? -1 : 1;
+    const aHasFbclid = a.fbclid && a.fbclid.trim() !== "";
+    const bHasFbclid = b.fbclid && b.fbclid.trim() !== "";
+    if (aHasFbclid === bHasFbclid) return 0;
+    return aHasFbclid ? -1 : 1;
   });
 
   const values = data.map(row => Object.values(row));
@@ -95,19 +91,12 @@ function ordersGoogle99(data, workSheetName) {
 }
 
 /**
- * Фільтрує всі товари де немає "google." в utm_source але є gclib
+ * Фільтрує всі товари де немає "fb", "ig", "facebook" в utm_source але є fbclib
  * @param {Array} data список всіх наших товарів
  * @param {string} workSheetName ім'я таблиці
  */
-function ordersGoogle50(data, workSheetName) {
+function ordersMeta50(data, workSheetName) {
   let sheet = ss.getSheetByName(workSheetName);
-
-  data.sort((a, b) => {
-    const aHasGclid = a.gclid && a.gclid.trim() !== "";
-    const bHasGclid = b.gclid && b.gclid.trim() !== "";
-    if (aHasGclid === bHasGclid) return 0;
-    return aHasGclid ? -1 : 1;
-  });
 
   const values = data.map(row => Object.values(row));
   const startRow = sheet.getLastRow() +1;
