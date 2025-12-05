@@ -68,14 +68,16 @@ function mergeFirstColumnWithLabel(workSheetName, startRow, label) {
  * Просто додає рядок в якому ми будемо підраховувати все до купи
  * @param {string} workSheetName ім'я таблиці
  * @param {integer} startRow рядок з якого починаємо рахувати суму
+ * @param {string} lable надпис для SPEND
+ * @param {integer} spend скільки було витрачено на рекламу
  */
-function appendSummaryTable(workSheetName, startRow) {
+function appendSummaryTable(workSheetName, startRow, label, spend) {
   const sheet = ss.getSheetByName(workSheetName);
   const lastRow = sheet.getLastRow();
 
   const summaryData = [
     ["Sum of the revenue Google 99%", "", "", "", "", "ROAS"],
-    ["Spend Meta", "", "", "", "", ""]
+    [label, "", "", spend, "", ""]
   ];
 
   sheet.getRange(lastRow + 3, 2, summaryData.length, summaryData[0].length).setValues(summaryData);

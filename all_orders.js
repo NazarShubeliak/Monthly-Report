@@ -3,7 +3,7 @@
  * @param{Array} data всі наші товари
  * @param{string} workSheetName ім'я аркуша
  */
-function allOrders(data, workSheetName) {
+function allOrders(data, workSheetName, googleSpend, metaSpend, klaviyoSpend) {
   const sheet = ss.getSheetByName(workSheetName);
 
   if (!sheet) {
@@ -23,9 +23,9 @@ function allOrders(data, workSheetName) {
 
   const summaryData = [
     ["Sum of the revenue Google 99%", "", "", ""],
-    ["Spend Google", "", "", ""],
-    ["Spend Meta", "", "", ""],
-    ["Spend Klaviyo", "", "", ""],
+    ["Spend Google", "", "", googleSpend],
+    ["Spend Meta", "", "", metaSpend],
+    ["Spend Klaviyo", "", "", klaviyoSpend],
     ["ROAS", "", "", ""],
   ];
 

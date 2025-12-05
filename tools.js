@@ -127,7 +127,7 @@ function splitData(data) {
   // Записуємо дані тільки для Google 50%
   const google50 = remaining.filter(row =>
     (row.gclid && row.gclid !== "") ||
-    (row.gclid === "" && row.utm_source && row.utm_source.includes("syndicatedsearch"))
+    ((!row.gclid || row.gclid === "") && row.utm_source && row.utm_source.includes("syndicatedsearch"))
   );
   remaining = remaining.filter(row => !google50.includes(row))
 

@@ -2,8 +2,9 @@
  * Створює аркуш Meta
  * @param {Array} data - дані з якими працює
  * @param {string} workSheetName - назва аркуша
+ * @parma {integer} spend - скільки було витрачено на рекламу
  */
-function createMeta(remaining, workSheetName) {
+function createMeta(remaining, workSheetName, spend) {
   const sheet = ss.getSheetByName(workSheetName);
 
   if (!sheet) {
@@ -12,10 +13,10 @@ function createMeta(remaining, workSheetName) {
 
   sheet.clear();
 
-  createMeta99(remaining.meta99, workSheetName);
+  createMeta99(remaining.meta99, workSheetName, spend);
   logger.log("Create table Meta 99%", Severity.DEBUG);
 
-  createMeta50(remaining.meta50, workSheetName);
+  createMeta50(remaining.meta50, workSheetName, spend);
   logger.log("Create table 50%", Severity.DEBUG);
 }
 
@@ -24,7 +25,7 @@ function createMeta(remaining, workSheetName) {
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createMeta99(data, workSheetName) {
+function createMeta99(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -39,7 +40,7 @@ function createMeta99(data, workSheetName) {
   mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Meta 99%");
 
   // // Step 5: підсумовуємо нашу цю таблицю
-  appendSummaryTable(workSheetName, startRow);
+  appendSummaryTable(workSheetName, startRow, "Facebook Spend", spend);
 }
 
 /**
@@ -47,7 +48,7 @@ function createMeta99(data, workSheetName) {
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createMeta50(data, workSheetName) {
+function createMeta50(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -62,7 +63,7 @@ function createMeta50(data, workSheetName) {
   mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Meta 50%");
 
   // Step 5: підсумовуємо нашу цю таблицю
-  appendSummaryTable(workSheetName, startRow);
+  appendSummaryTable(workSheetName, startRow, "Facebook Spend", spend);
 }
 
 /**

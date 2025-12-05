@@ -1,4 +1,5 @@
-function createKlaviyo(data, workSheetName) {
+
+function createKlaviyo(data, workSheetName, spend) {
   const sheet = ss.getSheetByName(workSheetName);
 
   if (!sheet) {
@@ -19,5 +20,5 @@ function createKlaviyo(data, workSheetName) {
   }
 
   mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Klaviyo 50%");
-  appendSummaryTable(workSheetName, startRow);
+  appendSummaryTable(workSheetName, startRow, "Kayoil Spend", spend);
 }

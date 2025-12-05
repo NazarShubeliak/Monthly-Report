@@ -3,7 +3,7 @@
  * @param {Array} data - дані з якими працює
  * @param {string} workSheetName - назва аркуша
  */
-function createGoogl(remaining, workSheetName) {
+function createGoogl(remaining, workSheetName, spend) {
   const sheet = ss.getSheetByName(workSheetName);
 
   if (!sheet) {
@@ -12,10 +12,10 @@ function createGoogl(remaining, workSheetName) {
 
   sheet.clear();
 
-  createGoogle99(remaining.google99, workSheetName);
+  createGoogle99(remaining.google99, workSheetName, spend);
   logger.log("Create table Google 99%", Severity.DEBUG);
 
-  createGoogle50(remaining.google50, workSheetName);
+  createGoogle50(remaining.google50, workSheetName, spend);
   logger.log("Create table 50%", Severity.DEBUG);
 }
 
@@ -24,7 +24,7 @@ function createGoogl(remaining, workSheetName) {
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createGoogle99(data, workSheetName) {
+function createGoogle99(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -39,7 +39,7 @@ function createGoogle99(data, workSheetName) {
   mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Google 99%");
 
   // Step 5: підсумовуємо нашу цю таблицю
-  appendSummaryTable(workSheetName, startRow);
+  appendSummaryTable(workSheetName, startRow, "Google Spend", spend);
 }
 
 /**
@@ -47,7 +47,7 @@ function createGoogle99(data, workSheetName) {
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
  */
-function createGoogle50(data, workSheetName) {
+function createGoogle50(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки
   writeHeader(workSheetName);
 
@@ -62,7 +62,7 @@ function createGoogle50(data, workSheetName) {
   mergeFirstColumnWithLabel(workSheetName, startRow, "Orders Google 50%");
 
   // Step 5: підсумовуємо нашу цю таблицю
-  appendSummaryTable(workSheetName, startRow);
+  appendSummaryTable(workSheetName, startRow, "Google Spend", spend);
 }
 
 /**
