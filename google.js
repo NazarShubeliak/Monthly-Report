@@ -2,6 +2,7 @@
  * Створює аркуш Google
  * @param {Array} data - дані з якими працює
  * @param {string} workSheetName - назва аркуша
+ * @param {integer} - spend кількість витрати на рекламу
  */
 function createGoogl(remaining, workSheetName, spend) {
   const sheet = ss.getSheetByName(workSheetName);
@@ -23,6 +24,7 @@ function createGoogl(remaining, workSheetName, spend) {
  * Створює таблицю Orders Google 99%
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
+ * @param {integer} - spend кількість витрати на рекламу
  */
 function createGoogle99(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки
@@ -46,6 +48,7 @@ function createGoogle99(data, workSheetName, spend) {
  * Створює таблицю Orders Google 50%
  * @param {Array} data всі наші товари
  * @param {string} workSheetName
+ * @param {integer} - spend кількість витрати на рекламу
  */
 function createGoogle50(data, workSheetName, spend) {
   // Step 1: Створюємо заголовки

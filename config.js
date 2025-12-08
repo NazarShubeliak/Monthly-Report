@@ -5,3 +5,17 @@ const logger = new LocalLogger(null, true, Severity.DEBUG);
 logger.init();
 
 const klaviyoSpend = 475;
+
+const grobGezahltHeaderTitle = [
+  "Month",
+  "Google - Our infos",
+  "Google - \nGoogle Ads infos",
+  "Meta - Our infos",
+  "Meta - \nAds manager infos",
+  "Klaviyo - Our infos",
+  "Klaviyo - \nKlaviyo infos",
+  "",
+  "Others Meta 50% - our infos",
+  "Others Google 50% - our infos",
+  "Others our infos"
+];

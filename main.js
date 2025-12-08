@@ -29,16 +29,20 @@ function doPost(e) {
     logger.log("Create table \"Google\"");
 
       // WorkSheet "Meta"
-    createMeta(remaining, "Meta", metaSpend);
+    // createMeta(remaining, "Meta", metaSpend);
     logger.log("Create table \"Meta\"");
 
       // WorkSheet "Klaviyo"
-    createKlaviyo(remaining.klaviyo, "Klaviyo", klaviyoSpend);
+    // createKlaviyo(remaining.klaviyo, "Klaviyo", klaviyoSpend);
     logger.log("Create table \"Klaviyo\"");
 
       // Others
-    createOrders(remaining.remaining, "Other");
+    // createOrders(remaining.remaining, "Other");
     logger.log("Creat table \"Orders Others\"");
+
+    // Step 5: Створюємо загальну таблицю з підрахунками
+    createGrobGezahlt(remaining, googleSpend, metaSpend, klaviyoSpend, "Grob gezählt");
+    logger.log("Creat table \"Grob gezählt\"")
 
     logger.log("All working good", Severity.INFO);
 
